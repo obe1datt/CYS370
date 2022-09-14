@@ -1,0 +1,84 @@
+import socket # socket lib
+import sys  # sys lib
+from colorama import Fore,init # colorama lib for coloring
+init()
+
+# banner 
+print(Fore.YELLOW,"""
+  /$$$$$$  /$$$$$$$$ /$$      /$$
+ /$$__  $$|__  $$__/| $$$    /$$$
+| $$  \ $$   | $$   | $$$$  /$$$$
+| $$$$$$$$   | $$   | $$ $$/$$ $$
+| $$__  $$   | $$   | $$  $$$| $$
+| $$  | $$   | $$   | $$\  $ | $$
+| $$  | $$   | $$   | $$ \/  | $$
+|__/  |__/   |__/   |__/     |__/    
+Coded by :  Mohammad Qeis Obeidat  2019904115
+            Osama AL-Sawalmeh      2019904026
+            Mohammad AL-Mnasi      2019904124 
+            Jawad Taamneh          2019805047
+Teacher  :  Dr-Malek 
+Section  :  CYS370 section1 
+All Rights Recieved 2022 
+"""                           
+)
+
+
+# socket Error handling 
+try:
+     # Create socket and connect it to server tcp socket 
+     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+     s.connect(('localhost',8008))
+except socket.error:
+   print("Error in socket Creation")
+except socket.herror :
+   print("Error in socket Creation") 
+except socket.gaierror:
+   print("Error in socket Creation") 
+except socket.timeout:
+   print("Error in socket Creation") 
+except OSError :
+   print("Error in socket Creation") 
+
+# mian function 
+
+def main():
+
+  try :
+    print(Fore.RED,"")
+    user = sys.argv[1]
+    s.send(user.encode('utf-8'))
+    print("Awaiting the reply...")
+    reply = s.recv( 1024 ).decode( 'utf-8' )
+    print("Received ", str(reply))
+    
+    passwd = sys.argv[2]
+    s.send(passwd.encode('utf-8'))
+    print("Awaiting the reply...")
+    reply = s.recv( 1024 ).decode( 'utf-8' )
+    print("Received ", str(reply))
+    
+    tran =  sys.argv[3]
+    s.send(tran.encode('utf-8'))
+    print("Awaiting the reply...")
+    reply = s.recv( 1024 ).decode( 'utf-8' )
+    print("Received ", str(reply))
+    
+    amount = sys.argv[4]
+    s.send(amount.encode('utf-8'))
+    print("Awaiting the reply...")
+    reply = s.recv( 1024 ).decode( 'utf-8' )
+    print("Received", str(reply))
+  except IndexError :
+    print(" Usage Python3 clint.py moh 1234 deposit/withdraw/inqury 400 ")    
+    submit = "OK"
+    s.send(submit.encode('utf-8'))
+    reply = s.recv( 1024 ).decode( 'utf-8' )
+    print("Received", str(reply))
+   
+  
+if __name__ == '__main__': 
+   if len(sys.argv) != 5 :
+      print("Usage Python3 clint.py moh 1234 deposit/withdraw/inqury 400 ")
+   else:
+      main()
